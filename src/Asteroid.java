@@ -15,7 +15,6 @@ import java.awt.Graphics;
  * Date: 13-Aug-2016
  */
 
-public class Asteroid {
 public class Asteroid implements Drawable {
     //Class wide variables
     int xCoord;
@@ -107,11 +106,6 @@ public class Asteroid implements Drawable {
         g.setColor(Color.RED);
         g.fillOval(xCoord, yCoord, radius, radius);
         
-        
-    }//getTarget
-    
-}//Asteroid
-
         this.updatePos();
     } // draw (Graphics);
 }// Asteroid;

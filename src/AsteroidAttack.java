@@ -12,7 +12,6 @@ import javax.swing.JFrame;
  * Purpose:
  * Date 13-Aug-2016
  */
-public class AsteroidAttack extends JFrame {
 
 public class AsteroidAttack extends JFrame implements Runnable {
     private final int SCREEN_WIDTH = 800;
@@ -34,7 +33,6 @@ public class AsteroidAttack extends JFrame implements Runnable {
         listener = new AAListener();
         
         this.setVisible(true);
-    }
     } // AsteroidAttack();
     
     @Override
