@@ -15,7 +15,7 @@ public class Asteroid {
     //Class wide variables
     int xCoord;
     int yCoord;
-    int yVelocity;
+    int velocity;
     int radius;
     int hardness;
     boolean flag;
@@ -25,51 +25,77 @@ public class Asteroid {
         this.xCoord = x;
         this.yCoord = y;
         this.radius = radius;
-        this.yVelocity = velocity;
+        this.velocity = velocity;
         this.hardness = hardness;
         
         this.flag = true;
         
-    }//END Asteroid()
+    }//Asteroid(int, int, int, int, int)
     
+    //Second constructor for twin
     public Asteroid(Asteroid mom, double deltaX) {
+        Asteroid mini1 = new Asteroid(this.xCoord, 
+                                      this.yCoord,
+                                      this.radius,
+                                      this.velocity, 
+                                      this.hardness);
         
+        Asteroid mini2 = new Asteroid(this.xCoord, 
+                                      this.yCoord,
+                                      this.radius,
+                                      this.velocity, 
+                                      this.hardness);
         
-    }
+        mini1.xCoord = mom.xCoord - mom.radius;
+        mini1.yCoord = mom.yCoord;
+        mini1.radius = mom.radius / 2;
+        mini1.velocity = mom.velocity;
+        mini1.hardness = mom.hardness;
+        mini1.flag = false;
+        
+        mini2.xCoord = mom.xCoord + mom.radius; 
+        mini2.yCoord = mom.yCoord;
+        mini2.radius = mom.radius / 2;
+        mini2.velocity = mom.velocity;
+        mini2.hardness = mom.hardness;
+        mini2.flag = false;
+        
+    }//Asteroid(Asteroid, double)
 
     public boolean isTwin() {
+        return Helper.rand(1, 100) <= 10;
         
-        
-    }//END isTwin()
+    }//sTwin()
     
     public void updatePos() {
-        yCoord = yCoord + yVelocity;
+        yCoord = yCoord + velocity;
         
-    }//END updatePos()
+    }//updatePos()
     
     double getX() {
         return xCoord;
         
-    }//END getX()
+    }//getX()
     
     double getY() {
         return yCoord;
         
-    }//END getY()
+    }//getY()
     
     double getRadius() {
         return radius;
         
-    }//END getRadius()
+    }//getRadius()
     
     public int sccoredHit() {
-        hardness = hardness - 1;
+        --hardness; 
         return hardness;
         
-    }//END scoredHit()
+    }//scoredHit()
     
     public boolean getTarget(double mouseX, double mouseY) {
         
-    }//END getTarget
+        
+    }//getTarget
     
-}//END Asteroid
+}//Asteroid
