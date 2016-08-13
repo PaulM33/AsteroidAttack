@@ -1,3 +1,7 @@
+
+import java.awt.Color;
+import java.awt.Graphics;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,7 +15,7 @@
  * Date: 13-Aug-2016
  */
 
-public class Asteroid {
+public class Asteroid implements Drawable {
     //Class wide variables
     int xCoord;
     int yCoord;
@@ -38,7 +42,7 @@ public class Asteroid {
     }
 
     public boolean isTwin() {
-        
+        return false;
         
     }//END isTwin()
     
@@ -69,7 +73,14 @@ public class Asteroid {
     }//END scoredHit()
     
     public boolean getTarget(double mouseX, double mouseY) {
+        return false;
+    }// getTarget (double, double);
+
+    @Override
+    public void draw(Graphics g) {
+        g.setColor(Color.RED);
+        g.fillOval(xCoord, yCoord, radius, radius);
         
-    }//END getTarget
-    
-}//END Asteroid
+        this.updatePos();
+    } // draw (Graphics);
+}// Asteroid;
