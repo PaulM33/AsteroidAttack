@@ -6,17 +6,18 @@
 
 /**
  * Program Name: Asteroid.java
- * Purpose: The creation of asteroids in the game 
+ * Purpose: The creation of asteroids for the game 
  * Author: Paul Magbor
  * Date: 13-Aug-2016
  */
+
 public class Asteroid {
     //Class wide variables
     int xCoord;
     int yCoord;
-    int velocity;
+    int yVelocity;
     int radius;
-    int hardness = (int)(Math.random() * (4 - 1 + 1) + 1);
+    int hardness;
     boolean flag;
     
     //Constructor
@@ -24,7 +25,7 @@ public class Asteroid {
         this.xCoord = x;
         this.yCoord = y;
         this.radius = radius;
-        this.velocity = velocity;
+        this.yVelocity = velocity;
         this.hardness = hardness;
         
         this.flag = true;
@@ -42,7 +43,7 @@ public class Asteroid {
     }//END isTwin()
     
     public void updatePos() {
-        yCoord = yCoord + velocity;
+        yCoord = yCoord + yVelocity;
         
     }//END updatePos()
     
