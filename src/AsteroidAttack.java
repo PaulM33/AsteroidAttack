@@ -16,9 +16,9 @@ public class AsteroidAttack extends JFrame implements Runnable {
     private final int SCREEN_WIDTH = 800;
     private final int SCREEN_HEIGHT = 800;
     
-    private Image buffer;
     private boolean isRunning;
     private Vector<Drawable> drawable;
+    private AAListener listener;
     
     public AsteroidAttack() {
         super("Asteroid Attack");
@@ -27,15 +27,14 @@ public class AsteroidAttack extends JFrame implements Runnable {
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         this.setLocationRelativeTo(null);
         
-        buffer = this.createImage(SCREEN_WIDTH, SCREEN_HEIGHT);
         drawable = new Vector<>();
+        listener = new AAListener();
         
         this.setVisible(true);
     } // AsteroidAttack();
     
     @Override
     public void run() {
-        drawable.add(new Asteroid(100, 100, 10, 1, 500));
         while (isRunning) {
             BufferStrategy bs = getBufferStrategy();
             if (bs == null) {
@@ -61,6 +60,8 @@ public class AsteroidAttack extends JFrame implements Runnable {
     } // run ();
     
     public void start() {
+        this.addMouseListener(listener);
+        this.addKeyListener(listener);
         isRunning = true;
         Thread t = new Thread(this);
         t.setPriority(Thread.MAX_PRIORITY);
@@ -72,6 +73,14 @@ public class AsteroidAttack extends JFrame implements Runnable {
     } // stop ();
     
     public void render(Graphics g) {
+        if (listener.space_pressed) {
+            // Fire Nuke...
+        }
+
+        if (listener.mouse_clicked) {
+            g.drawLine(listener.mouse_position.x, listener.mouse_position.y, 0, 0);
+        }
+        
         for (Drawable d : drawable) {
             d.draw(g);
         }
