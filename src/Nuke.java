@@ -1,16 +1,12 @@
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Vector;
-import javax.imageio.ImageIO;
 
 /**
- * 
  * Program Name: Nuke.java
  * @author Daniel Krauskopf
- * Purpose:
+ * Purpose: The Nuke object.
  * Date 14-Aug-2016
  */
 public class Nuke implements Drawable {
@@ -18,7 +14,6 @@ public class Nuke implements Drawable {
     
     private boolean shouldDestory;
     private Point position;
-    
     private int imageOffsetX;
     private int imageOffsetY;
     private Vector<Drawable> drawable;
@@ -36,20 +31,19 @@ public class Nuke implements Drawable {
     @Override
     public void draw(Graphics g) {
         g.drawImage(Images.NUKE.image, position.x - imageOffsetX, position.y - imageOffsetY, null);
-        position.translate(0, -10);
-        
+        position.translate(0, -10); // Move the Nuke up.
         
         if (position.y <= 400) {
             SoundEffect.NUKE.play();
-            g.drawImage(
+            g.drawImage( // Draw the explosion.
                     Images.EXPLOSION.image, 
                     400 - Images.EXPLOSION.image.getWidth() / 2, 
                     400 - Images.EXPLOSION.image.getHeight() / 2,
                     null
             );
+            
             // Kill the nuke and all astroids...
             shouldDestory = true;
-            
             for (int i = drawable.size() - 1; i >= 0; i--) {
                 Drawable d = drawable.get(i);
                 if (d instanceof Asteroid) {
@@ -57,7 +51,7 @@ public class Nuke implements Drawable {
                 }
             } // for(i);
             Nuke.exists = false;
-        }
+        } // if(Position is centre);
     } // draw (Graphics g);
 
     @Override

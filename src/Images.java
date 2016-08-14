@@ -6,16 +6,18 @@ import javax.imageio.ImageIO;
 /**
  * 
  * Program Name: Images.java
- * @author Daniel Krauskopf
+ * @author Paul Magbor, Daniel Krauskopf
  * Purpose: To store and use all of the image files.
- * https://www.ntu.edu.sg/home/ehchua/programming/java/J8c_PlayingSound.html
+ * Adapted from: https://www.ntu.edu.sg/home/ehchua/programming/java/J8c_PlayingSound.html
  * Date 14-Aug-2016
  */
 public enum Images {
     // Picture from: http://clipart.me
     NUKE("Pictures/nuke-new-tr.png"), 
-    // Images from: http://www.clipartpanda.com/clipart_images/related-cliparts-62559252
-    EXPLOSION("Pictures/explosion.jpg");
+    // Image from: http://www.clipartpanda.com/clipart_images/related-cliparts-62559252
+    EXPLOSION("Pictures/explosion.jpg"),
+    // Image From: http://img3.wikia.nocookie.net/__cb20140324120428/starbound/ru/images/0/0e/Asteroid.png
+    ASTEROID("Pictures/Asteroid.png");
     
     public BufferedImage image;
 
@@ -27,6 +29,7 @@ public enum Images {
         }
     } // Images(String);
     
+    // Initalize the values, read from disk.
     static void init() {
         values();
     } // init ();

@@ -9,7 +9,7 @@ import java.awt.event.MouseMotionListener;
 /**
  * 
  * Program Name: AAListener.java
- * @author Daniel Krauskopf
+ * @author Paul Magbor, Daniel Krauskopf
  * Purpose: A Mouse and Keyboard Listener for the Asteroid Attack game.
  * Date 13-Aug-2016
  */
