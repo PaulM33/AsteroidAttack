@@ -42,7 +42,7 @@ public class Nuke implements Drawable {
     @Override
     public void draw(Graphics g) {
         g.drawImage(image, position.x - imageOffsetX, position.y - imageOffsetY, null);
-        position.translate(0, -1);
+        position.translate(0, -10);
         
         
         if (position.y <= 400) {

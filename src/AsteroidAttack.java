@@ -57,7 +57,7 @@ public class AsteroidAttack extends JFrame implements Runnable {
             g.dispose();
 
             try {
-                Thread.sleep(10);
+                Thread.sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -87,7 +87,7 @@ public class AsteroidAttack extends JFrame implements Runnable {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
         
-        if (Helper.rand(0, 100) <= 1) {
+        if (Helper.rand(0, 1000) <= 1) {
             addDrawable(new Asteroid());
         }
 
@@ -95,11 +95,6 @@ public class AsteroidAttack extends JFrame implements Runnable {
             // Fire Nuke... And only allow one to exist at a time.
             if (!Nuke.exists)
                 addDrawable(new Nuke());
-        }
-       
-
-        if (listener.mouse_clicked) {
-
         }
 
         if (!drawable.isEmpty()) {
@@ -112,6 +107,8 @@ public class AsteroidAttack extends JFrame implements Runnable {
                     Asteroid a = (Asteroid) d;
                     g.setColor(Color.RED);
                     g.drawLine(p.x, p.y, 400, 800);
+                    
+                    SoundEffect.LASER.play();
 
                     if (Helper.lineIntercetCircle(
                             new Point(400, 800),
@@ -128,6 +125,9 @@ public class AsteroidAttack extends JFrame implements Runnable {
 
                     }
                 }
+                
+                if (d.shouldDestory())
+                    removeDrawable(d);
                 
             }
         }
