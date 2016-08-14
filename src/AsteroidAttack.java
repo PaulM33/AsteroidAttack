@@ -1,6 +1,8 @@
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.image.BufferStrategy;
 import java.util.Vector;
 import javax.swing.JFrame;
@@ -16,9 +18,9 @@ public class AsteroidAttack extends JFrame implements Runnable {
     private final int SCREEN_WIDTH = 800;
     private final int SCREEN_HEIGHT = 800;
     
-    private Image buffer;
     private boolean isRunning;
     private Vector<Drawable> drawable;
+    private AAListener listener;
     
     public AsteroidAttack() {
         super("Asteroid Attack");
@@ -27,15 +29,15 @@ public class AsteroidAttack extends JFrame implements Runnable {
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         this.setLocationRelativeTo(null);
         
-        buffer = this.createImage(SCREEN_WIDTH, SCREEN_HEIGHT);
         drawable = new Vector<>();
+        listener = new AAListener();
         
         this.setVisible(true);
     } // AsteroidAttack();
     
     @Override
     public void run() {
-        drawable.add(new Asteroid(100, 100, 10, 1, 500));
+        addDrawable(new Asteroid(100, 200, 50, 1, 5));
         while (isRunning) {
             BufferStrategy bs = getBufferStrategy();
             if (bs == null) {
@@ -61,6 +63,8 @@ public class AsteroidAttack extends JFrame implements Runnable {
     } // run ();
     
     public void start() {
+        this.addMouseListener(listener);
+        this.addKeyListener(listener);
         isRunning = true;
         Thread t = new Thread(this);
         t.setPriority(Thread.MAX_PRIORITY);
@@ -72,6 +76,29 @@ public class AsteroidAttack extends JFrame implements Runnable {
     } // stop ();
     
     public void render(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        
+        if (listener.space_pressed) {
+            // Fire Nuke...
+        }
+
+        if (listener.mouse_clicked) {
+            Point p = Helper.increaseLine(new Point(400, 800), listener.mouse_position, 800);
+            g.setColor(Color.RED);
+            g.drawLine(p.x, p.y, 400, 800);
+            
+            if (Helper.lineIntercetCircle(
+                    new Point(400, 800), 
+                    p,
+                    ((Asteroid)drawable.get(0)).getCenter(),
+                    ((Asteroid)drawable.get(0)).getRadius()
+            )) {
+                g.setColor(Color.WHITE);
+                g.drawString("Hit", 100, 100);
+            }
+        }
+        
         for (Drawable d : drawable) {
             d.draw(g);
         }
