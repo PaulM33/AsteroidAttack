@@ -1,6 +1,8 @@
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.image.BufferStrategy;
 import java.util.Vector;
 import javax.swing.JFrame;
@@ -37,6 +39,7 @@ public class AsteroidAttack extends JFrame implements Runnable {
     
     @Override
     public void run() {
+        addDrawable(new Asteroid(100, 200, 50, 1, 5));
         while (isRunning) {
             BufferStrategy bs = getBufferStrategy();
             if (bs == null) {
@@ -75,12 +78,27 @@ public class AsteroidAttack extends JFrame implements Runnable {
     } // stop ();
     
     public void render(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
+        
         if (listener.space_pressed) {
             // Fire Nuke...
         }
 
         if (listener.mouse_clicked) {
-            g.drawLine(listener.mouse_position.x, listener.mouse_position.y, 0, 0);
+            Point p = Helper.increaseLine(new Point(400, 800), listener.mouse_position, 800);
+            g.setColor(Color.RED);
+            g.drawLine(p.x, p.y, 400, 800);
+            
+            if (Helper.lineIntercetCircle(
+                    new Point(400, 800), 
+                    p,
+                    ((Asteroid)drawable.get(0)).getCenter(),
+                    ((Asteroid)drawable.get(0)).getRadius()
+            )) {
+                g.setColor(Color.WHITE);
+                g.drawString("Hit", 100, 100);
+            }
         }
         
         for (Drawable d : drawable) {

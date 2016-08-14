@@ -1,6 +1,7 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -86,8 +87,8 @@ public class Asteroid implements Drawable {
         
     }//getY()
     
-    double getRadius() {
-        return radius;
+    int getRadius() {
+        return radius / 2;
         
     }//getRadius()
     
@@ -103,10 +104,14 @@ public class Asteroid implements Drawable {
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.RED);
+        g.setColor(Color.BLUE);
         g.fillOval(xCoord, yCoord, radius, radius);
         
         this.updatePos();
     } // draw (Graphics);
+    
+    public Point getCenter() {
+        return new Point(xCoord + getRadius(), yCoord + getRadius());
+    } // getCenter ();
 }// Asteroid;
 

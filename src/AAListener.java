@@ -30,8 +30,8 @@ public class AAListener implements MouseListener, KeyListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        mouse_clicked = true;
         mouse_position.setLocation(e.getPoint());
+        mouse_clicked = true;
     } // mousePressed (MouseEvent);
 
     @Override
