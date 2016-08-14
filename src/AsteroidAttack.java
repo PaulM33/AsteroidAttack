@@ -21,6 +21,8 @@ public class AsteroidAttack extends JFrame implements Runnable {
     private boolean isRunning;
     private Vector<Drawable> drawable;
     private AAListener listener;
+    
+    int score = 0;
 
     Asteroid a1 = new Asteroid();
     Asteroid a2 = new Asteroid();
@@ -84,6 +86,10 @@ public class AsteroidAttack extends JFrame implements Runnable {
     public void render(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
+        
+        if (Helper.rand(0, 100) <= 1) {
+            addDrawable(new Asteroid());
+        }
 
         if (listener.space_pressed) {
             // Fire Nuke...
@@ -95,7 +101,9 @@ public class AsteroidAttack extends JFrame implements Runnable {
 
         if (!drawable.isEmpty()) {
             for (int i = 0; i < drawable.size(); i++) {
+                Drawable d = drawable.get(i);
                 d.draw(g);
+                
                 if (d instanceof Asteroid && listener.mouse_clicked) {
                     Point p = Helper.increaseLine(new Point(400, 800), listener.mouse_position, 800);
                     Asteroid a = (Asteroid) d;
@@ -109,14 +117,21 @@ public class AsteroidAttack extends JFrame implements Runnable {
                             a.getRadius()
                     )) {
                         g.setColor(Color.WHITE);
-                        g.drawString("Hit", 100, 100);
-                        a.sccoredHit();
-                        removeDrawable(d);
+                        //a.scoredHit();
+                        if(a.scoredHit() == 0) {
+                            removeDrawable(d);
+                            score++;
+                        }
 
                     }
                 }
+                
             }
         }
+        
+        g.setColor(Color.WHITE);
+        g.drawString("" + score, 100, 100);
+        
     } // draw ();
 
     public void addDrawable(Drawable d) {
