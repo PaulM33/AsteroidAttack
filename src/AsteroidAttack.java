@@ -12,8 +12,6 @@ import javax.swing.JFrame;
  * Purpose:
  * Date 13-Aug-2016
  */
-public class AsteroidAttack extends JFrame {
-
 public class AsteroidAttack extends JFrame implements Runnable {
     private final int SCREEN_WIDTH = 800;
     private final int SCREEN_HEIGHT = 800;
@@ -26,7 +24,6 @@ public class AsteroidAttack extends JFrame implements Runnable {
         super("Asteroid Attack");
         
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800, 800);
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         this.setLocationRelativeTo(null);
         
@@ -34,7 +31,6 @@ public class AsteroidAttack extends JFrame implements Runnable {
         drawable = new Vector<>();
         
         this.setVisible(true);
-    }
     } // AsteroidAttack();
     
     @Override

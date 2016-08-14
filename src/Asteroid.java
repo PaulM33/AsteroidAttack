@@ -99,7 +99,6 @@ public class Asteroid implements Drawable {
     
     public boolean getTarget(double mouseX, double mouseY) {
         
-        
         return false;
     }// getTarget (double, double);
 
