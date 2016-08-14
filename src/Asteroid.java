@@ -25,7 +25,7 @@ public class Asteroid implements Drawable {
     final int initialHardness;
     int hardness;
     private Color colour;
-    boolean flag;
+    boolean isTwin;
     
     int coolDown;
     
@@ -41,21 +41,19 @@ public class Asteroid implements Drawable {
         
         this.coolDown = 0;
         
-        this.flag = false;
-        
+        this.isTwin = Helper.rand(1, 100) <= 10;
     }//Asteroid()
     
     //Second constructor for twin
     public Asteroid(Asteroid mom, int deltaX) {
-       deltaX = mom.xCoord - mom.radius;
-       this.xCoord = deltaX;
+       this.xCoord = mom.xCoord + deltaX;
        this.yCoord = mom.yCoord;
        this.radius = mom.radius / 2;
        this.velocity = mom.velocity;
        this.initialHardness = mom.initialHardness;
        this.hardness = this.initialHardness;
        this.colour = Color.BLUE;
-       this.flag = true;
+       this.isTwin = false;
        this.coolDown = 0;
         
     }//Asteroid(Asteroid, double)

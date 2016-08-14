@@ -119,6 +119,10 @@ public class AsteroidAttack extends JFrame implements Runnable {
                         g.setColor(Color.WHITE);
                         //a.scoredHit();
                         if(a.scoredHit() == 0) {
+                            if(a.isTwin) {
+                                addDrawable(new Asteroid(a, -a.radius));
+                                addDrawable(new Asteroid(a, a.radius));
+                            }
                             removeDrawable(d);
                             score++;
                         }
