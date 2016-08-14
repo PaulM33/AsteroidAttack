@@ -26,44 +26,33 @@ public class Asteroid implements Drawable {
     boolean flag;
     
     //Constructor
-    public Asteroid(int x, int y, int radius, int velocity, int hardness) {
-        this.xCoord = x;
-        this.yCoord = y;
-        this.radius = radius;
-        this.velocity = velocity;
-        this.hardness = hardness;
+    public Asteroid() {
+        this.xCoord = Helper.rand(50, 750);
+        this.yCoord = 20;
+        this.radius = Helper.rand(20, 50);
+        this.velocity = 1;
+        this.hardness = 1;
         
         this.flag = true;
         
-    }//Asteroid(int, int, int, int, int)
+    }//Asteroid()
     
     //Second constructor for twin
     public Asteroid(Asteroid mom, double deltaX) {
-        Asteroid mini1 = new Asteroid(this.xCoord, 
-                                      this.yCoord,
-                                      this.radius,
-                                      this.velocity, 
-                                      this.hardness);
-        
-        Asteroid mini2 = new Asteroid(this.xCoord, 
-                                      this.yCoord,
-                                      this.radius,
-                                      this.velocity, 
-                                      this.hardness);
+        Asteroid mini1 = new Asteroid();
+        Asteroid mini2 = new Asteroid();
         
         mini1.xCoord = mom.xCoord - mom.radius;
         mini1.yCoord = mom.yCoord;
         mini1.radius = mom.radius / 2;
         mini1.velocity = mom.velocity;
         mini1.hardness = mom.hardness;
-        mini1.flag = false;
         
-        mini2.xCoord = mom.xCoord + mom.radius; 
+        mini2.xCoord = mom.xCoord + mom.radius;
         mini2.yCoord = mom.yCoord;
-        mini2.radius = mom.radius / 2;
+        mini2.radius = mom.radius;
         mini2.velocity = mom.velocity;
         mini2.hardness = mom.hardness;
-        mini2.flag = false;
         
     }//Asteroid(Asteroid, double)
 
@@ -98,10 +87,6 @@ public class Asteroid implements Drawable {
         
     }//scoredHit()
     
-    public boolean getTarget(double mouseX, double mouseY) {
-        
-        return false;
-    }// getTarget (double, double);
 
     @Override
     public void draw(Graphics g) {
