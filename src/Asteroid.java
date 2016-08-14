@@ -15,7 +15,6 @@ import java.awt.Graphics;
  * Date: 13-Aug-2016
  */
 
-public class Asteroid {
 public class Asteroid implements Drawable {
     //Class wide variables
     int xCoord;
@@ -99,19 +98,16 @@ public class Asteroid implements Drawable {
     }//scoredHit()
     
     public boolean getTarget(double mouseX, double mouseY) {
+        
+        
         return false;
     }// getTarget (double, double);
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.RED);
+        g.setColor(Color.BLUE);
         g.fillOval(xCoord, yCoord, radius, radius);
         
-        
-    }//getTarget
-    
-}//Asteroid
-
         this.updatePos();
     } // draw (Graphics);
 }// Asteroid;
