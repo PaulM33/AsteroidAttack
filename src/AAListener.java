@@ -13,7 +13,6 @@ import java.awt.event.MouseListener;
  * Date 13-Aug-2016
  */
 public class AAListener implements MouseListener, KeyListener {
-    
     public boolean space_pressed;
     public boolean mouse_clicked;
     public Point mouse_position;

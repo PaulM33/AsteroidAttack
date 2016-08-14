@@ -114,5 +114,10 @@ public class Asteroid implements Drawable {
     public Point getCenter() {
         return new Point(xCoord + getRadius(), yCoord + getRadius());
     } // getCenter ();
+
+    @Override
+    public boolean shouldDestory() {
+        return false;
+    } // shouldDestory ();
 }// Asteroid;
 

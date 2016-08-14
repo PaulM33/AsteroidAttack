@@ -1,7 +1,6 @@
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.image.BufferStrategy;
 import java.util.Vector;
@@ -66,6 +65,7 @@ public class AsteroidAttack extends JFrame implements Runnable {
         this.addMouseListener(listener);
         this.addKeyListener(listener);
         isRunning = true;
+        SoundEffect.init(); // Load all the sounds.
         Thread t = new Thread(this);
         t.setPriority(Thread.MAX_PRIORITY);
         t.start();
@@ -80,10 +80,14 @@ public class AsteroidAttack extends JFrame implements Runnable {
         g.fillRect(0, 0, getWidth(), getHeight());
         
         if (listener.space_pressed) {
-            // Fire Nuke...
+            // Fire Nuke... And only allow one to exist at a time.
+            if (!Nuke.exists)
+                addDrawable(new Nuke());
         }
+       
 
         if (listener.mouse_clicked) {
+            SoundEffect.LASER.play();
             Point p = Helper.increaseLine(new Point(400, 800), listener.mouse_position, 800);
             g.setColor(Color.RED);
             g.drawLine(p.x, p.y, 400, 800);
@@ -99,8 +103,13 @@ public class AsteroidAttack extends JFrame implements Runnable {
             }
         }
         
-        for (Drawable d : drawable) {
+        for (int i = 0; i < drawable.size(); i++) {
+            Drawable d = drawable.get(i);
+            
             d.draw(g);
+            if (d.shouldDestory()) {
+                drawable.remove(d);
+            }
         }
     } // draw ();
     
