@@ -21,7 +21,7 @@ public class AsteroidAttack extends JFrame implements Runnable {
     private Vector<Drawable> drawable;
     private AAListener listener;
     private UserInterface ui;
-    
+
     public AsteroidAttack() {
         super("Asteroid Attack");
 
@@ -83,7 +83,7 @@ public class AsteroidAttack extends JFrame implements Runnable {
     public void render(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
-        
+
         if (Helper.rand(0, 100) <= 1) {
             addDrawable(new Asteroid());
         }
@@ -115,15 +115,20 @@ public class AsteroidAttack extends JFrame implements Runnable {
                         a.getRadius()
                 )) {
                     g.setColor(Color.WHITE);
-                    if(a.scoredHit() == 0) {
+                    if (a.scoredHit() == 0) {
+                        if (a.isTwin) {
+                            addDrawable(new Asteroid(a, -a.radius));
+                            addDrawable(new Asteroid(a, a.radius));
+                        }
                         removeDrawable(d);
                         ui.addScore();
                     }
                 } // if(Asteroid hit);
-            } // if(Asteroid %% Clicked);
+            } // if(Asteroid && Clicked);
 
-            if (d.shouldDestory())
+            if (d.shouldDestory()) {
                 removeDrawable(d);
+            }
         } // for(i);
     } // draw ();
 
