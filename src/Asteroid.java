@@ -22,48 +22,41 @@ public class Asteroid implements Drawable {
     int yCoord;
     int velocity;
     int radius;
+    final int initialHardness;
     int hardness;
+    private Color colour;
     boolean flag;
     
+    int coolDown;
+    
     //Constructor
-    public Asteroid(int x, int y, int radius, int velocity, int hardness) {
-        this.xCoord = x;
-        this.yCoord = y;
-        this.radius = radius;
-        this.velocity = velocity;
-        this.hardness = hardness;
+    public Asteroid() {
+        this.xCoord = Helper.rand(50, 750);
+        this.yCoord = 20;
+        this.radius = Helper.rand(20, 50);
+        this.velocity = Helper.rand(1, 5);
+        this.initialHardness = Helper.rand(1, 4);
+        this.hardness = initialHardness;
+        this.colour = Color.BLUE;
         
-        this.flag = true;
+        this.coolDown = 0;
         
-    }//Asteroid(int, int, int, int, int)
+        this.flag = false;
+        
+    }//Asteroid()
     
     //Second constructor for twin
-    public Asteroid(Asteroid mom, double deltaX) {
-        Asteroid mini1 = new Asteroid(this.xCoord, 
-                                      this.yCoord,
-                                      this.radius,
-                                      this.velocity, 
-                                      this.hardness);
-        
-        Asteroid mini2 = new Asteroid(this.xCoord, 
-                                      this.yCoord,
-                                      this.radius,
-                                      this.velocity, 
-                                      this.hardness);
-        
-        mini1.xCoord = mom.xCoord - mom.radius;
-        mini1.yCoord = mom.yCoord;
-        mini1.radius = mom.radius / 2;
-        mini1.velocity = mom.velocity;
-        mini1.hardness = mom.hardness;
-        mini1.flag = false;
-        
-        mini2.xCoord = mom.xCoord + mom.radius; 
-        mini2.yCoord = mom.yCoord;
-        mini2.radius = mom.radius / 2;
-        mini2.velocity = mom.velocity;
-        mini2.hardness = mom.hardness;
-        mini2.flag = false;
+    public Asteroid(Asteroid mom, int deltaX) {
+       deltaX = mom.xCoord - mom.radius;
+       this.xCoord = deltaX;
+       this.yCoord = mom.yCoord;
+       this.radius = mom.radius / 2;
+       this.velocity = mom.velocity;
+       this.initialHardness = mom.initialHardness;
+       this.hardness = this.initialHardness;
+       this.colour = Color.BLUE;
+       this.flag = true;
+       this.coolDown = 0;
         
     }//Asteroid(Asteroid, double)
 
@@ -92,21 +85,31 @@ public class Asteroid implements Drawable {
         
     }//getRadius()
     
-    public int sccoredHit() {
-        --hardness; 
+    public int scoredHit() {        
+        if(coolDown == 0) {
+            hardness--;
+            colour = new Color(
+                    (int)((1.0 - (double)hardness/initialHardness) * 255),
+                    0,
+                    (int)(((double)hardness/initialHardness) * 255)
+            );
+            coolDown = 20;
+        }
+        
         return hardness;
         
     }//scoredHit()
     
-    public boolean getTarget(double mouseX, double mouseY) {
-        
-        return false;
-    }// getTarget (double, double);
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.BLUE);
+        g.setColor(colour);
         g.fillOval(xCoord, yCoord, radius, radius);
+        
+        if(coolDown != 0) {
+            coolDown--;
+            
+        }
         
         this.updatePos();
     } // draw (Graphics);
