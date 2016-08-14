@@ -93,7 +93,7 @@ public class Asteroid implements Drawable {
                     0,
                     (int)(((double)hardness/initialHardness) * 255)
             );
-            coolDown = 20;
+            coolDown = 2;
         }
         
         return hardness;
@@ -120,7 +120,7 @@ public class Asteroid implements Drawable {
 
     @Override
     public boolean shouldDestory() {
-        return false;
+        return yCoord >= 800;
     } // shouldDestory ();
 }// Asteroid;
 

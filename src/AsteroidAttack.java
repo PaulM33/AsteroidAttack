@@ -87,7 +87,7 @@ public class AsteroidAttack extends JFrame implements Runnable {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
         
-        if (Helper.rand(0, 1000) <= 1) {
+        if (Helper.rand(0, 100) <= 1) {
             addDrawable(new Asteroid());
         }
 
