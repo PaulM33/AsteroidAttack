@@ -3,6 +3,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Vector;
 import javax.imageio.ImageIO;
 
 /**
@@ -17,37 +18,44 @@ public class Nuke implements Drawable {
     
     private boolean shouldDestory;
     private Point position;
-    private BufferedImage image;
     
     private int imageOffsetX;
     private int imageOffsetY;
+    private Vector<Drawable> drawable;
 
-    public Nuke() {
+    public Nuke(Vector<Drawable> drawable) {
         Nuke.exists = true;
         shouldDestory = false;
         position = new Point(400, 800);
         
-        // Picture from: http://clipart.me
-        try {
-            image = ImageIO.read(getClass().getResource("Pictures/nuke-new-tr.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        imageOffsetX = image.getHeight() / 2;
-        imageOffsetY = image.getWidth() / 2;
-        SoundEffect.NUKE.play();
+        this.drawable = drawable;
+        imageOffsetX = Images.NUKE.image.getHeight() / 2;
+        imageOffsetY = Images.NUKE.image.getWidth() / 2;
     } // Nuke();
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(image, position.x - imageOffsetX, position.y - imageOffsetY, null);
+        g.drawImage(Images.NUKE.image, position.x - imageOffsetX, position.y - imageOffsetY, null);
         position.translate(0, -10);
         
         
         if (position.y <= 400) {
+            SoundEffect.NUKE.play();
+            g.drawImage(
+                    Images.EXPLOSION.image, 
+                    400 - Images.EXPLOSION.image.getWidth() / 2, 
+                    400 - Images.EXPLOSION.image.getHeight() / 2,
+                    null
+            );
             // Kill the nuke and all astroids...
             shouldDestory = true;
+            
+            for (int i = drawable.size() - 1; i >= 0; i--) {
+                Drawable d = drawable.get(i);
+                if (d instanceof Asteroid) {
+                    drawable.remove(d);
+                }
+            } // for(i);
             Nuke.exists = false;
         }
     } // draw (Graphics g);

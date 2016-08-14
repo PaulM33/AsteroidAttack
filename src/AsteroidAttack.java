@@ -20,12 +20,8 @@ public class AsteroidAttack extends JFrame implements Runnable {
     private boolean isRunning;
     private Vector<Drawable> drawable;
     private AAListener listener;
+    private UserInterface ui;
     
-    int score = 0;
-
-    Asteroid a1 = new Asteroid();
-    Asteroid a2 = new Asteroid();
-
     public AsteroidAttack() {
         super("Asteroid Attack");
 
@@ -35,15 +31,14 @@ public class AsteroidAttack extends JFrame implements Runnable {
 
         drawable = new Vector<>();
         listener = new AAListener();
+        ui = new UserInterface(listener);
 
         this.setVisible(true);
     } // AsteroidAttack();
 
     @Override
     public void run() {
-        //addDrawable(new Asteroid(100, 200, 50, 1, 5));
-        addDrawable(a1);
-        addDrawable(a2);
+        addDrawable(ui);
 
         while (isRunning) {
             BufferStrategy bs = getBufferStrategy();
@@ -72,8 +67,10 @@ public class AsteroidAttack extends JFrame implements Runnable {
     public void start() {
         this.addMouseListener(listener);
         this.addKeyListener(listener);
+        this.addMouseMotionListener(listener);
         isRunning = true;
         SoundEffect.init(); // Load all the sounds.
+        Images.init(); // Load all the images.
         Thread t = new Thread(this);
         t.setPriority(Thread.MAX_PRIORITY);
         t.start();
@@ -93,47 +90,41 @@ public class AsteroidAttack extends JFrame implements Runnable {
 
         if (listener.space_pressed) {
             // Fire Nuke... And only allow one to exist at a time.
-            if (!Nuke.exists)
-                addDrawable(new Nuke());
-        }
-
-        if (!drawable.isEmpty()) {
-            for (int i = 0; i < drawable.size(); i++) {
-                Drawable d = drawable.get(i);
-                d.draw(g);
-                
-                if (d instanceof Asteroid && listener.mouse_clicked) {
-                    Point p = Helper.increaseLine(new Point(400, 800), listener.mouse_position, 800);
-                    Asteroid a = (Asteroid) d;
-                    g.setColor(Color.RED);
-                    g.drawLine(p.x, p.y, 400, 800);
-                    
-                    SoundEffect.LASER.play();
-
-                    if (Helper.lineIntercetCircle(
-                            new Point(400, 800),
-                            p,
-                            a.getCenter(),
-                            a.getRadius()
-                    )) {
-                        g.setColor(Color.WHITE);
-                        //a.scoredHit();
-                        if(a.scoredHit() == 0) {
-                            removeDrawable(d);
-                            score++;
-                        }
-
-                    }
-                }
-                
-                if (d.shouldDestory())
-                    removeDrawable(d);
-                
+            if (!Nuke.exists && ui.canNuke()) {
+                ui.fireNuke();
+                addDrawable(new Nuke(drawable));
             }
         }
-        
-        g.setColor(Color.WHITE);
-        g.drawString("" + score, 100, 100);
+
+        for (int i = 0; i < drawable.size(); i++) {
+            Drawable d = drawable.get(i);
+            d.draw(g);
+
+            if (d instanceof Asteroid && listener.mouse_clicked) {
+                Point p = Helper.increaseLine(new Point(400, 800), listener.laser_position, 800);
+                Asteroid a = (Asteroid) d;
+                g.setColor(Color.RED);
+                g.drawLine(p.x, p.y, 400, 800);
+
+                SoundEffect.LASER.play();
+
+                if (Helper.lineIntercetCircle(
+                        new Point(400, 800),
+                        p,
+                        a.getCenter(),
+                        a.getRadius()
+                )) {
+                    g.setColor(Color.WHITE);
+                    if(a.scoredHit() == 0) {
+                        removeDrawable(d);
+                        ui.addScore();
+                    }
+                } // if(Asteroid hit);
+            } // if(Asteroid %% Clicked);
+
+            if (d.shouldDestory())
+                removeDrawable(d);
+        } // for(i);
     } // draw ();
 
     public void addDrawable(Drawable d) {
